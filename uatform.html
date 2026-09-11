@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UAT Feedback Form</title>
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#d9dee7;
+      --accent:#2563eb;
+      --accent-soft:#eff6ff;
+      --danger:#b91c1c;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+    }
+    .wrap{
+      max-width:820px;
+      margin:40px auto;
+      padding:0 18px 48px;
+    }
+    .header{margin-bottom:22px}
+    h1{font-size:30px;margin:0 0 8px}
+    .intro{color:var(--muted);margin:0}
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:24px;
+      margin:16px 0;
+      box-shadow:0 1px 2px rgba(0,0,0,.03);
+    }
+    h2{font-size:18px;margin:0 0 18px}
+    .field{margin:0 0 18px}
+    label, legend{
+      display:block;
+      font-weight:650;
+      margin-bottom:7px;
+    }
+    .hint{
+      display:block;
+      margin-top:-3px;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:400;
+    }
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:9px;
+      padding:11px 12px;
+      font:inherit;
+      background:#fff;
+      color:var(--text);
+    }
+    textarea{min-height:100px;resize:vertical}
+    input:focus, select:focus, textarea:focus{
+      outline:3px solid var(--accent-soft);
+      border-color:var(--accent);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0 0 18px;
+    }
+    .choices{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .choice{
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:9px 12px;
+      background:#fff;
+    }
+    .choice input{margin-right:6px}
+    .scale{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+    }
+    .scale label{
+      text-align:center;
+      border:1px solid var(--border);
+      border-radius:9px;
+      padding:10px 6px;
+      cursor:pointer;
+      font-weight:500;
+    }
+    .scale input{display:block;margin:0 auto 4px}
+    .conditional{
+      border-left:3px solid var(--accent);
+      padding-left:14px;
+    }
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:20px;
+    }
+    button{
+      border:0;
+      border-radius:9px;
+      padding:11px 18px;
+      font:inherit;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button[type="submit"]{
+      background:var(--accent);
+      color:#fff;
+    }
+    button[type="reset"]{
+      background:#e5e7eb;
+      color:#111827;
+    }
+    #status{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .required{color:var(--danger)}
+    @media (max-width:650px){
+      .grid{grid-template-columns:1fr}
+      .scale{grid-template-columns:1fr}
+      .scale label{text-align:left}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <h1>UAT Feedback</h1>
+      <p class="intro">
+        Please complete this after testing the assigned scenario. Focus on what happened,
+        what you expected, and whether anything would prevent you from using the feature in real work.
+      </p>
+    </div>
+
+    <form id="uatForm">
+      <section class="card">
+        <h2>1. Test details</h2>
+
+        <div class="grid">
+          <div class="field">
+            <label for="tester">Tester name</label>
+            <input id="tester" name="tester" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="scenario">Scenario / task <span class="required">*</span></label>
+            <input id="scenario" name="scenario" type="text" required
+                   placeholder="e.g. Find overdue London customers and export them" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="environment">Environment</label>
+            <select id="environment" name="environment">
+              <option value="">Select…</option>
+              <option>UAT</option>
+              <option>Staging</option>
+              <option>Production-like</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="device">Device / browser</label>
+            <input id="device" name="device" type="text"
+                   placeholder="e.g. Chrome on Windows 11" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. Task outcome</h2>
+
+        <fieldset>
+          <legend>Were you able to complete the task? <span class="required">*</span></legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="completion" value="Yes" required /> Yes</label>
+            <label class="choice"><input type="radio" name="completion" value="Partially" /> Partially</label>
+            <label class="choice"><input type="radio" name="completion" value="No" /> No</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>How easy was it?</legend>
+          <span class="hint">1 = very difficult, 5 = very easy</span>
+          <div class="scale">
+            <label><input type="radio" name="ease" value="1" />1</label>
+            <label><input type="radio" name="ease" value="2" />2</label>
+            <label><input type="radio" name="ease" value="3" />3</label>
+            <label><input type="radio" name="ease" value="4" />4</label>
+            <label><input type="radio" name="ease" value="5" />5</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="unexpected">Did anything behave differently from what you expected?</label>
+          <textarea id="unexpected" name="unexpected"
+                    placeholder="Describe what happened."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="expected">What did you expect to happen?</label>
+          <textarea id="expected" name="expected"
+                    placeholder="Describe the outcome or behaviour you expected."></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3. Issue details</h2>
+
+        <fieldset>
+          <legend>What best describes your feedback?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="type" value="Defect" /> Defect</label>
+            <label class="choice"><input type="radio" name="type" value="Usability" /> Usability issue</label>
+            <label class="choice"><input type="radio" name="type" value="Enhancement" /> Enhancement</label>
+            <label class="choice"><input type="radio" name="type" value="Positive" /> Positive feedback</label>
+            <label class="choice"><input type="radio" name="type" value="None" /> No issue</label>
+          </div>
+        </fieldset>
+
+        <div class="grid conditional">
+          <div class="field">
+            <label for="severity">Impact / severity</label>
+            <select id="severity" name="severity">
+              <option value="">Select…</option>
+              <option>Blocker — cannot continue</option>
+              <option>High — major impact</option>
+              <option>Medium — workaround exists</option>
+              <option>Low — minor inconvenience</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="reference">Screenshot / ticket reference</label>
+            <input id="reference" name="reference" type="text"
+                   placeholder="Paste a link or issue ID" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="details">Describe the issue or observation</label>
+          <textarea id="details" name="details"
+                    placeholder="Where were you, what did you do, and what happened?"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="impact">What impact would this have in your real work?</label>
+          <textarea id="impact" name="impact"
+                    placeholder="e.g. prevents completing the task, adds manual work, causes uncertainty"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4. Overall acceptance</h2>
+
+        <fieldset>
+          <legend>Would you be comfortable signing this off for release? <span class="required">*</span></legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="signoff" value="Yes" required /> Yes</label>
+            <label class="choice"><input type="radio" name="signoff" value="Yes, with minor fixes" /> Yes, with minor fixes</label>
+            <label class="choice"><input type="radio" name="signoff" value="No" /> No</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="reason">Why?</label>
+          <textarea id="reason" name="reason"
+                    placeholder="What would need to change before you would sign off?"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="other">Anything else we should know?</label>
+          <textarea id="other" name="other"></textarea>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="reset">Clear form</button>
+        <div id="status" aria-live="polite"></div>
+        <button type="submit">Submit feedback</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("uatForm");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // Demo behaviour only. Replace this with your API / Forms / ticketing integration.
+      console.log("UAT feedback:", data);
+
+      status.textContent = "Feedback captured — demo mode (not sent anywhere).";
+    });
+  </script>
+</body>
+</html>
